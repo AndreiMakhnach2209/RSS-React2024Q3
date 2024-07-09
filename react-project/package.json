@@ -1,5 +1,5 @@
 {
-  "name": "class-components",
+  "name": "react-project",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "format:fix": "npx prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}"
+    "format:fix": "npx prettier --write src/**/*.{js,jsx,ts,tsx,json,css,scss,md}",
+    "prepare": "cd .. && husky react-project/.husky"
   },
   "dependencies": {
     "react": "^18.3.1",
