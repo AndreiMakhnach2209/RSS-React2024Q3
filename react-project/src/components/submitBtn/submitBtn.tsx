@@ -3,7 +3,7 @@ import "./submitBtn.scss";
 
 class SubmitBtn extends Component<InputHTMLAttributes<HTMLInputElement>> {
   render() {
-    return <input type="button" value={this.props.value}></input>;
+    return <input type="submit" value={this.props.value}></input>;
   }
 }
 export default SubmitBtn;

@@ -4,7 +4,14 @@ import "./searchInput.scss";
 class SearchInput extends Component<InputHTMLAttributes<HTMLInputElement>> {
   render(): ReactNode {
     const { placeholder, ...restProps } = this.props;
-    return <input placeholder={placeholder} {...restProps} />;
+    return (
+      <input
+        placeholder={placeholder}
+        name="identifier"
+        autoComplete="false"
+        {...restProps}
+      />
+    );
   }
 }
 
