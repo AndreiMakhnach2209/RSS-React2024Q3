@@ -8,7 +8,7 @@ class SearchForm extends Component {
     return (
       <form name="search">
         <SearchInput placeholder="Input name or ID"></SearchInput>
-        <SubmitBtn caption="SEARCH" />
+        <SubmitBtn value="SEARCH" />
       </form>
     );
   }
