@@ -25,7 +25,7 @@ export default class API {
 
   public async getPokemon(identifier: string): Promise<Pokemon> {
     try {
-      const response = await fetch(this.url + identifier);
+      const response = await fetch(this.url + identifier.toLowerCase());
       if (response.status === 200) {
         const data = await response.json();
         return data as Pokemon;

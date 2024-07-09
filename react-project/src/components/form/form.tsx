@@ -54,7 +54,7 @@ class SearchForm extends Component {
 
   render(): ReactNode {
     return (
-      <form name="search" onSubmit={this.handleClick}>
+      <form name="search" onSubmit={this.handleClick} className="search-form">
         <SearchInput
           placeholder="Input name or ID"
           onChange={this.handleChange}
