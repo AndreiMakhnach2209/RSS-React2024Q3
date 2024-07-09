@@ -1,2 +1,2 @@
 cd react-project
-npm run lint
+npx lint-staged
