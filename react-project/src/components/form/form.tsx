@@ -23,10 +23,11 @@ class SearchForm extends Component {
 
   componentDidMount(): void {
     const prevValue = localStorage.getItem("search_value");
+    const { getPokemon } = this.context;
     if (prevValue) {
       this.setState({ valueInput: prevValue });
-      this.getData();
     }
+    getPokemon(prevValue || "");
   }
 
   saveSearchValue = () => {
@@ -36,15 +37,11 @@ class SearchForm extends Component {
     else localStorage.removeItem("search_value");
   };
 
-  getData = () => {
+  handleClick = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
     const value = this.state.valueInput;
     const { getPokemon } = this.context;
     getPokemon(value);
-  };
-
-  handleClick = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
-    this.getData();
     this.saveSearchValue();
   };
 
