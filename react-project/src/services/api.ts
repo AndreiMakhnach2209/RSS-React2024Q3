@@ -12,7 +12,7 @@ export default class API {
 
   public async getAllPokemons(): Promise<PokemonListApiResponse> {
     try {
-      const response = await fetch(this.url);
+      const response = await fetch(`${this.url}/?limit=1500`);
       if (response.status === 200) {
         const data = await response.json();
         return data as PokemonListApiResponse;

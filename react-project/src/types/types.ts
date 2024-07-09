@@ -40,7 +40,7 @@ interface PokemonAbility {
 
 interface PokemonType {
   slot: number;
-  type: string;
+  type: { name: string; url: string };
 }
 
 interface PokemonTypePast {
@@ -84,6 +84,7 @@ interface PokemonSprites {
   back_shiny: string;
   back_female: string;
   back_shiny_female: string;
+  other: { dream_world: { front_default: string } };
 }
 
 interface PokemonCries {
