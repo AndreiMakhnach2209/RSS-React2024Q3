@@ -21,11 +21,31 @@ class SearchForm extends Component {
     valueInput: "",
   };
 
-  handleClick = (event: FormEvent<HTMLFormElement>): void => {
-    event.preventDefault();
+  componentDidMount(): void {
+    const prevValue = localStorage.getItem("search_value");
+    if (prevValue) {
+      this.setState({ valueInput: prevValue });
+      this.getData();
+    }
+  }
+
+  saveSearchValue = () => {
+    const { valueInput } = this.state;
+    if (valueInput.trim().length)
+      localStorage.setItem("search_value", valueInput);
+    else localStorage.removeItem("search_value");
+  };
+
+  getData = () => {
     const value = this.state.valueInput;
     const { getPokemon } = this.context;
     getPokemon(value);
+  };
+
+  handleClick = (event: FormEvent<HTMLFormElement>): void => {
+    event.preventDefault();
+    this.getData();
+    this.saveSearchValue();
   };
 
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {
@@ -38,6 +58,7 @@ class SearchForm extends Component {
         <SearchInput
           placeholder="Input name or ID"
           onChange={this.handleChange}
+          value={this.state.valueInput}
         ></SearchInput>
         <SubmitBtn value="SEARCH" />
       </form>
