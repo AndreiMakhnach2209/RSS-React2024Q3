@@ -5,6 +5,7 @@ import API from "../services/api";
 interface SearchProviderState {
   data: PokemonListApiResponse | Pokemon | null;
   isLoading: boolean;
+  isEmpty: boolean;
 }
 
 export interface SearchContextType extends SearchProviderState {
@@ -14,6 +15,7 @@ export interface SearchContextType extends SearchProviderState {
 export const SearchContext = createContext<SearchContextType>({
   data: null,
   isLoading: false,
+  isEmpty: false,
   getPokemon: () => Promise.resolve(),
 });
 
@@ -31,9 +33,13 @@ class SearchProvider extends Component<
       const data = value.trim().length
         ? await API.getInstance().getPokemon(value)
         : await API.getInstance().getAllPokemons();
-      this.setState({ data });
+      this.setState({ data, isEmpty: false });
     } catch (error) {
-      console.error("Something went wrong.");
+      if (error instanceof Error) {
+        const { message } = error;
+        this.setState({ isEmpty: true });
+        console.error(message);
+      }
     } finally {
       this.setState({ isLoading: false });
     }

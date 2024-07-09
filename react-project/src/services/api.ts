@@ -30,8 +30,10 @@ export default class API {
         const data = await response.json();
         return data as Pokemon;
       }
+      if (response.status === 404) throw new Error("Pokemon not found");
       throw new Error("Something went wrong.");
     } catch (error) {
+      if (error instanceof Error) throw new Error(error.message);
       throw new Error("Something went wrong.");
     }
   }
