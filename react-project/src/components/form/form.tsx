@@ -24,8 +24,8 @@ class SearchForm extends Component {
   handleClick = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const value = this.state.valueInput;
-    const { setIdentifier } = this.context;
-    setIdentifier(value);
+    const { getPokemon } = this.context;
+    getPokemon(value);
   };
 
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

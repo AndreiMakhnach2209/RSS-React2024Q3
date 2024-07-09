@@ -15,7 +15,6 @@ export default class API {
       const response = await fetch(this.url);
       if (response.status === 200) {
         const data = await response.json();
-        console.log(data);
         return data as PokemonListApiResponse;
       }
       throw new Error("Something went wrong.");
@@ -29,7 +28,6 @@ export default class API {
       const response = await fetch(this.url + identifier);
       if (response.status === 200) {
         const data = await response.json();
-        console.log(data);
         return data as Pokemon;
       }
       throw new Error("Something went wrong.");

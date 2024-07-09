@@ -1,34 +1,38 @@
 import { Component, createContext } from "react";
+import { Pokemon, PokemonListApiResponse } from "../types/types";
+import API from "../services/api";
 
-export interface SearchContextType {
-  identifier: string;
-  setIdentifier: (value: string) => void;
+interface SearchProviderState {
+  data: PokemonListApiResponse | Pokemon | null;
+}
+
+export interface SearchContextType extends SearchProviderState {
+  getPokemon: (value: string) => Promise<void>;
 }
 
 export const SearchContext = createContext<SearchContextType>({
-  identifier: "",
-  setIdentifier: () => {},
+  data: null,
+  getPokemon: () => Promise.resolve(),
 });
 
 interface SearchProviderProps {
   children: React.ReactNode;
 }
 
-interface SearchProviderState {
-  identifier: string;
-}
-
 class SearchProvider extends Component<
   SearchProviderProps,
   SearchProviderState
 > {
-  setIdentifier = (value: string) => {
-    this.setState({ identifier: value });
+  getPokemon = async (value: string) => {
+    const data = value.trim().length
+      ? await API.getInstance().getPokemon(value)
+      : await API.getInstance().getAllPokemons();
+    this.setState({ data });
   };
 
   render() {
     const contextValue = {
-      setIdentifier: this.setIdentifier,
+      getPokemon: this.getPokemon,
       ...this.state,
     };
     return (
