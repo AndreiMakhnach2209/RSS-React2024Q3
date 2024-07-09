@@ -12,6 +12,14 @@ import { SearchContext } from "../../context/context";
 
 interface StateTypes {
   valueInput: string;
+  hasError: boolean;
+}
+
+class CustomError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "CustomError";
+  }
 }
 class SearchForm extends Component {
   static contextType = SearchContext;
@@ -19,6 +27,7 @@ class SearchForm extends Component {
 
   state: StateTypes = {
     valueInput: "",
+    hasError: false,
   };
 
   componentDidMount(): void {
@@ -49,16 +58,26 @@ class SearchForm extends Component {
     this.setState({ valueInput: event.target.value });
   };
 
+  throwError = () => {
+    this.setState({ hasError: true });
+  };
+
   render(): ReactNode {
+    if (this.state.hasError) {
+      throw new CustomError("Oooops!!!");
+    }
     return (
-      <form name="search" onSubmit={this.handleClick} className="search-form">
-        <SearchInput
-          placeholder="Input name or ID"
-          onChange={this.handleChange}
-          value={this.state.valueInput}
-        ></SearchInput>
-        <SubmitBtn value="SEARCH" />
-      </form>
+      <>
+        <button onClick={this.throwError}>THROW ERROR</button>
+        <form name="search" onSubmit={this.handleClick} className="search-form">
+          <SearchInput
+            placeholder="Input name or ID"
+            onChange={this.handleChange}
+            value={this.state.valueInput}
+          ></SearchInput>
+          <SubmitBtn value="SEARCH" />
+        </form>
+      </>
     );
   }
 }
