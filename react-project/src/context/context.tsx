@@ -1,6 +1,14 @@
 import { Component, createContext } from "react";
 
-const SearchContext = createContext({});
+export interface SearchContextType {
+  identifier: string;
+  setIdentifier: (value: string) => void;
+}
+
+export const SearchContext = createContext<SearchContextType>({
+  identifier: "",
+  setIdentifier: () => {},
+});
 
 interface SearchProviderProps {
   children: React.ReactNode;
@@ -14,16 +22,17 @@ class SearchProvider extends Component<
   SearchProviderProps,
   SearchProviderState
 > {
-  constructor(props: SearchProviderProps) {
-    super(props);
-    this.state = {
-      identifier: "",
-    };
-  }
+  setIdentifier = (value: string) => {
+    this.setState({ identifier: value });
+  };
 
   render() {
+    const contextValue = {
+      setIdentifier: this.setIdentifier,
+      ...this.state,
+    };
     return (
-      <SearchContext.Provider value={this.state.identifier}>
+      <SearchContext.Provider value={contextValue}>
         {this.props.children}
       </SearchContext.Provider>
     );

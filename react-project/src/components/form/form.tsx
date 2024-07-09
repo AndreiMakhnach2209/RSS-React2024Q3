@@ -1,13 +1,22 @@
-import { ChangeEvent, Component, FormEvent, ReactNode } from "react";
+import {
+  ChangeEvent,
+  Component,
+  ContextType,
+  FormEvent,
+  ReactNode,
+} from "react";
 import "./form.scss";
 import SearchInput from "../input/searchInput";
 import SubmitBtn from "../submitBtn/submitBtn";
-import API from "../../services/api";
+import { SearchContext } from "../../context/context";
 
 interface StateTypes {
   valueInput: string;
 }
 class SearchForm extends Component {
+  static contextType = SearchContext;
+  declare context: ContextType<typeof SearchContext>;
+
   state: StateTypes = {
     valueInput: "",
   };
@@ -15,8 +24,8 @@ class SearchForm extends Component {
   handleClick = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
     const value = this.state.valueInput;
-    if (value.length) API.getInstance().getPokemon(value);
-    else API.getInstance().getAllPokemons();
+    const { setIdentifier } = this.context;
+    setIdentifier(value);
   };
 
   handleChange = (event: ChangeEvent<HTMLInputElement>): void => {

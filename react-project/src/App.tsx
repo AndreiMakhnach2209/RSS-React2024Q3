@@ -7,7 +7,7 @@ class App extends Component {
   render(): ReactNode {
     return (
       <SearchProvider>
-        <MainPage />;
+        <MainPage />
       </SearchProvider>
     );
   }
