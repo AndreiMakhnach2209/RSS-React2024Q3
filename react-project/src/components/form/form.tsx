@@ -39,6 +39,14 @@ class SearchForm extends Component {
     getPokemon(prevValue || "");
   }
 
+  componentDidUpdate(
+    _prevProps: Readonly<unknown>,
+    prevState: Readonly<StateTypes>
+  ): void {
+    if (prevState.valueInput !== this.state.valueInput)
+      this.context.setSearchInput(this.state.valueInput.trim().toLowerCase());
+  }
+
   saveSearchValue = () => {
     const { valueInput } = this.state;
     if (valueInput.trim().length)

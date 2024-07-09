@@ -6,17 +6,21 @@ interface SearchProviderState {
   data: PokemonListApiResponse | Pokemon | null;
   isLoading: boolean;
   isEmpty: boolean;
+  searchInput: string;
 }
 
 export interface SearchContextType extends SearchProviderState {
   getPokemon: (value: string) => Promise<void>;
+  setSearchInput: (value: string) => void;
 }
 
 export const SearchContext = createContext<SearchContextType>({
   data: null,
   isLoading: false,
   isEmpty: false,
+  searchInput: "",
   getPokemon: () => Promise.resolve(),
+  setSearchInput: () => {},
 });
 
 interface SearchProviderProps {
@@ -45,9 +49,14 @@ class SearchProvider extends Component<
     }
   };
 
+  setSearchInput = (value: string) => {
+    this.setState({ searchInput: value });
+  };
+
   render() {
     const contextValue = {
       getPokemon: this.getPokemon,
+      setSearchInput: this.setSearchInput,
       ...this.state,
     };
     return (
