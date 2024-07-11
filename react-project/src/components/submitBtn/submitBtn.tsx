@@ -1,9 +1,10 @@
-import { Component, InputHTMLAttributes } from "react";
+import { InputHTMLAttributes, ReactElement } from "react";
 import "./submitBtn.scss";
 
-class SubmitBtn extends Component<InputHTMLAttributes<HTMLInputElement>> {
-  render() {
-    return <input type="submit" value={this.props.value}></input>;
-  }
+function SubmitBtn({
+  ...props
+}: InputHTMLAttributes<HTMLInputElement>): ReactElement {
+  return <input type="submit" value={props.value} {...props}></input>;
 }
+
 export default SubmitBtn;

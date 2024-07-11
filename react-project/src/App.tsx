@@ -1,19 +1,17 @@
-import { Component, ReactNode } from "react";
 import "./App.scss";
 import MainPage from "./view/MainPage";
-import SearchProvider from "./context/context";
+import SearchProvider from "./context/searchContext";
 import ErrorBoundary from "./components/errorBoundary/errorBoundary";
+import { ReactElement } from "react";
 
-class App extends Component {
-  render(): ReactNode {
-    return (
-      <SearchProvider>
-        <ErrorBoundary>
-          <MainPage />
-        </ErrorBoundary>
-      </SearchProvider>
-    );
-  }
+function App(): ReactElement {
+  return (
+    <SearchProvider>
+      <ErrorBoundary>
+        <MainPage />
+      </ErrorBoundary>
+    </SearchProvider>
+  );
 }
 
 export default App;

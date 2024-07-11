@@ -20,5 +20,6 @@ module.exports = {
     ],
     '@typescript-eslint/no-explicit-any': 'error',
     'react-compiler/react-compiler': 'error',
+    "@typescript-eslint/explicit-function-return-type": "error",
   },
 };

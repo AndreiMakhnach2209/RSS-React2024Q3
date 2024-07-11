@@ -1,15 +1,13 @@
-import { Component } from "react";
+import { ReactElement } from "react";
 import "./loader.scss";
 import logo from "../../assets/3.svg";
 
-class Loader extends Component {
-  render() {
-    return (
-      <div className="loader">
-        <img src={logo} alt="logo" />
-      </div>
-    );
-  }
+function Loader(): ReactElement {
+  return (
+    <div className="loader">
+      <img src={logo} alt="logo" />
+    </div>
+  );
 }
 
 export default Loader;
