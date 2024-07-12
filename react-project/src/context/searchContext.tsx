@@ -2,10 +2,11 @@ import {
   createContext,
   ReactElement,
   useCallback,
+  useEffect,
   useMemo,
   useState,
 } from "react";
-import { Pokemon, PokemonListApiResponse } from "../types/types";
+import { Pokemon, PokemonListApiResponse, PokemonResult } from "../types/types";
 import API from "../services/api";
 
 interface SearchProviderState {
@@ -13,6 +14,8 @@ interface SearchProviderState {
   isLoading: boolean;
   isEmpty: boolean;
   searchInput: string;
+  count: number;
+  fullList: PokemonResult[];
 }
 
 interface SearchContextType extends SearchProviderState {
@@ -25,6 +28,8 @@ const initialSearchState: SearchProviderState = {
   isLoading: false,
   isEmpty: false,
   searchInput: "",
+  count: 0,
+  fullList: [],
 };
 
 export const SearchContext = createContext<SearchContextType>({
@@ -46,7 +51,11 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
       const data = value.trim().length
         ? await API.getInstance().getPokemon(value)
         : await API.getInstance().getAllPokemons();
-      setState((prevState) => ({ ...prevState, data, isEmpty: false }));
+      setState((prevState) => ({
+        ...prevState,
+        data,
+        isEmpty: false,
+      }));
     } catch (error) {
       if (error instanceof Error) {
         const { message } = error;
@@ -60,6 +69,21 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
 
   const setSearchInput = useCallback((value: string): void => {
     setState((prevState) => ({ ...prevState, searchInput: value }));
+  }, []);
+
+  const getfullList = async (): Promise<void> => {
+    try {
+      const { count } = await API.getInstance().getAllPokemons();
+      const { results } = await API.getInstance().getAllPokemons(count);
+
+      setState((prevState) => ({ ...prevState, count, fullList: results }));
+    } catch (error) {
+      if (error instanceof Error) console.error(error.message);
+    }
+  };
+
+  useEffect(() => {
+    getfullList();
   }, []);
 
   const contextValue: SearchContextType = useMemo(

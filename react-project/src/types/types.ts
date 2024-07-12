@@ -92,4 +92,4 @@ interface PokemonCries {
   legacy: string;
 }
 
-export type { PokemonListApiResponse, Pokemon };
+export type { PokemonListApiResponse, Pokemon, PokemonResult };
