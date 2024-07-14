@@ -1,12 +1,28 @@
-.results__table {
-  width: 100%;
+.results-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: center;
 
-  td,
-  th {
-    text-align: center;
-  }
+  &__card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    height: 150px;
+    border: 1px solid #fff;
+    border-radius: 5px;
+    
+    & p {
+      text-transform: capitalize;
+      text-align: center;
+    }
 
-  td {
-    text-transform: capitalize;
+    @media (prefers-color-scheme: light) {
+      & {
+        border-color: #000;
+      }
+    }  
   }
 }

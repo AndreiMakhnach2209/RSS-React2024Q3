@@ -15,10 +15,10 @@ function ResultsList(props: ResultsListProps): ReactElement {
       const { name, url } = item;
       const id = url.split("/").slice(-2, -1)[0];
       return (
-        <tr key={name + id}>
-          <td>{id}</td>
-          <td>{name}</td>
-        </tr>
+        <div className="results-list__card" key={name + id}>
+          <p>ID: {id}</p>
+          <p>NAME: {name}</p>
+        </div>
       );
     })
     .filter(
@@ -27,15 +27,7 @@ function ResultsList(props: ResultsListProps): ReactElement {
     );
   return (
     <>
-      <table className="results__table">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>NAME</th>
-          </tr>
-        </thead>
-        <tbody>{listItems}</tbody>
-      </table>
+      <div className="results-list">{listItems}</div>
     </>
   );
 }
