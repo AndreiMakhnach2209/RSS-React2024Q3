@@ -1,15 +1,15 @@
 import "./App.scss";
-import MainPage from "./view/MainPage";
 import SearchProvider from "./context/searchContext";
 import ErrorBoundary from "./components/errorBoundary/errorBoundary";
 import { ReactElement } from "react";
+import { useRoutes } from "react-router-dom";
+import routes from "./router";
 
 function App(): ReactElement {
+  const content = useRoutes(routes);
   return (
     <SearchProvider>
-      <ErrorBoundary>
-        <MainPage />
-      </ErrorBoundary>
+      <ErrorBoundary>{content}</ErrorBoundary>
     </SearchProvider>
   );
 }
