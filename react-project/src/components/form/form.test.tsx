@@ -6,13 +6,17 @@ localStorage.setItem("search_value", "Bulbasaur");
 const { getByPlaceholderText, getByText } = render(<SearchForm />);
 
 test("should retrieve the value from local storage upon mounting", () => {
-  const input = getByPlaceholderText("Input name or ID") as HTMLInputElement;
+  const input = getByPlaceholderText(
+    "Enter the name of the Pokemon"
+  ) as HTMLInputElement;
 
   assert.equal(input.value, "Bulbasaur");
 });
 
 test("should save the entered value to local storage when clicking the Search button", () => {
-  const input = getByPlaceholderText("Input name or ID") as HTMLInputElement;
+  const input = getByPlaceholderText(
+    "Enter the name of the Pokemon"
+  ) as HTMLInputElement;
   const searchButton = getByText("SEARCH") as HTMLInputElement;
 
   fireEvent.change(input, { target: { value: "Pikachu" } });

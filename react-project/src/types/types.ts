@@ -1,4 +1,4 @@
-interface PokemonListApiResponse {
+interface PokemonListApiResponse extends Record<string, unknown> {
   count: number;
   next: string | null;
   previous: string | null;
@@ -10,7 +10,7 @@ interface PokemonResult {
   url: string;
 }
 
-interface Pokemon {
+interface Pokemon extends Record<string, unknown> {
   id: number;
   name: string;
   base_experience: number;
@@ -92,4 +92,4 @@ interface PokemonCries {
   legacy: string;
 }
 
-export type { PokemonListApiResponse, Pokemon };
+export type { PokemonListApiResponse, Pokemon, PokemonResult };
