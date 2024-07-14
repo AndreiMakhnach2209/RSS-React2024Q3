@@ -12,16 +12,16 @@ import SubmitBtn from "../submitBtn/submitBtn";
 import { SearchContext } from "../../context/searchContext";
 
 function SearchForm(): ReactElement {
-  const { getPokemon, setSearchInput } = useContext(SearchContext);
+  const { getPokemon, setSearchInput, search } = useContext(SearchContext);
   const [valueInput, setValueInput] = useState("");
 
   useEffect(() => {
     const prevValue = localStorage.getItem("search_value");
     if (prevValue) {
       setValueInput(prevValue);
-    }
-    getPokemon(prevValue || "");
-  }, [getPokemon]);
+      search(prevValue);
+    } else getPokemon("");
+  }, [getPokemon, search]);
 
   useEffect(() => {
     setSearchInput(valueInput.trim().toLowerCase());
@@ -38,10 +38,11 @@ function SearchForm(): ReactElement {
   const handleSubmit = useCallback(
     (event: FormEvent) => {
       event.preventDefault();
-      getPokemon(valueInput);
+      if (!valueInput.length) getPokemon(valueInput);
+      else search(valueInput);
       saveSearchValue();
     },
-    [valueInput, getPokemon, saveSearchValue]
+    [valueInput, getPokemon, search, saveSearchValue]
   );
 
   const handleChange = useCallback(
@@ -55,7 +56,7 @@ function SearchForm(): ReactElement {
     <>
       <form name="search" onSubmit={handleSubmit} className="search-form">
         <SearchInput
-          placeholder="Input name or ID"
+          placeholder="Enter the name of the Pokemon"
           onChange={handleChange}
           value={valueInput}
         />

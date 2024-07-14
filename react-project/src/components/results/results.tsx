@@ -13,7 +13,7 @@ function ResultsField(): ReactElement {
     <div className="results__container">
       {isPokemonListApiResponse(data) && (
         <>
-          <PaginationBox />
+          {data.count ? <PaginationBox /> : null}
           <ResultsList data={data} />
         </>
       )}

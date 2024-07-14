@@ -25,6 +25,7 @@ interface SearchContextType extends SearchProviderState {
   getPokemon: (value: string) => Promise<void>;
   setSearchInput: (value: string) => void;
   getPage: (to: "next" | "previous") => Promise<void>;
+  search: (value: string) => void;
 }
 
 const initialSearchState: SearchProviderState = {
@@ -43,6 +44,7 @@ export const SearchContext = createContext<SearchContextType>({
   getPokemon: () => Promise.resolve(),
   setSearchInput: () => {},
   getPage: () => Promise.resolve(),
+  search: () => {},
 });
 
 interface SearchProviderProps {
@@ -121,6 +123,22 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
     [state]
   );
 
+  const search = useCallback(
+    (value: string) => {
+      const results = state.fullList.filter((item) =>
+        item.name.includes(value)
+      );
+      const newData = {
+        count: 0,
+        next: null,
+        previous: null,
+        results,
+      } as PokemonListApiResponse;
+      if (value) setState((prevState) => ({ ...prevState, data: newData }));
+    },
+    [state.fullList]
+  );
+
   useEffect(() => {
     getfullList();
   }, []);
@@ -131,8 +149,9 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
       getPokemon,
       setSearchInput,
       getPage,
+      search,
     }),
-    [getPage, getPokemon, setSearchInput, state]
+    [getPage, getPokemon, search, setSearchInput, state]
   );
 
   return (
