@@ -25,7 +25,11 @@ function PaginationBox(): ReactElement {
       <span>
         {Math.round(offset / limit) + 1} of {Math.ceil(count / limit)}{" "}
       </span>
-      <button onClick={handleClickNext} disabled={!next}>
+      <button
+        onClick={handleClickNext}
+        disabled={!next}
+        data-testid="Next_page_btn"
+      >
         Next
       </button>
     </div>
