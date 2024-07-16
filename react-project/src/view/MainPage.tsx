@@ -5,6 +5,7 @@ import ResultsField from "../components/results/results";
 import Loader from "../components/loader/loader";
 import { SearchContext } from "../context/searchContext";
 import EmptySearch from "../components/emptySearch/emptySearch";
+import { Outlet } from "react-router-dom";
 
 function MainPage(): ReactElement {
   const { isLoading, isEmpty } = useContext(SearchContext);
@@ -13,6 +14,7 @@ function MainPage(): ReactElement {
       {isLoading && <Loader />}
       <SearchForm />
       {isEmpty ? <EmptySearch /> : <ResultsField />}
+      <Outlet></Outlet>
     </div>
   );
 }

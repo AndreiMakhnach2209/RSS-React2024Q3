@@ -1,7 +1,7 @@
-import { ReactElement, useContext } from "react";
+import { ReactElement } from "react";
 import "./resultsList.scss";
 import { PokemonListApiResponse } from "../../types/types";
-import { SearchContext } from "../../context/searchContext";
+import { NavLink } from "react-router-dom";
 
 interface ResultsListProps {
   data: PokemonListApiResponse;
@@ -9,21 +9,16 @@ interface ResultsListProps {
 
 function ResultsList(props: ResultsListProps): ReactElement {
   const { results } = props.data;
-  const { getPokemon } = useContext(SearchContext);
   const listItems = results.map((item) => {
     const { name, url } = item;
     const id = url.split("/").slice(-2, -1)[0];
     return (
-      <div
-        className="results-list__card"
-        key={name + id}
-        onClick={() => {
-          getPokemon(id);
-        }}
-      >
-        <p>ID: {id}</p>
-        <p>NAME: {name}</p>
-      </div>
+      <NavLink to={`pokemon/${id}`} key={name + id}>
+        <div className="results-list__card">
+          <p>ID: {id}</p>
+          <p>NAME: {name}</p>
+        </div>
+      </NavLink>
     );
   });
   return (
