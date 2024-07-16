@@ -13,11 +13,9 @@ import { isPokemon } from "../../types/guards";
 import { useParams } from "react-router-dom";
 
 function ResultsCard(): ReactElement {
-  const { data, getPokemon } = useContext(SearchContext);
+  const { details, getPokemon } = useContext(SearchContext);
   const [imageLoaded, setImageLoaded] = useState(false);
   const { id } = useParams();
-
-  console.log(id);
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
@@ -29,30 +27,43 @@ function ResultsCard(): ReactElement {
 
   useEffect(() => {
     setImageLoaded(false);
-  }, [data?.id]);
+  }, [details?.id]);
 
   return (
     <>
-      {isPokemon(data) && (
-        <div className="results__card" key={data.id}>
-          <h2>{data.name}</h2>
+      {isPokemon(details) && (
+        <div className="results__card" key={details.id}>
+          <h2>{details.name}</h2>
           {!imageLoaded && (
-            <img className="results__card-image" alt={data.name} src={logo} />
+            <img
+              className="results__card-image"
+              alt={details.name}
+              src={logo}
+            />
           )}
           <img
             className="results__card-image"
-            alt={data.name}
+            alt={details.name}
             src={
-              data.sprites.other.dream_world?.front_default ??
-              data.sprites.front_default
+              details.sprites.other.dream_world?.front_default ??
+              details.sprites.front_default
             }
             onLoad={handleImageLoad}
           />
           <div className="results__card-desc">
             <span>ID: {id}</span>
             <span>
-              TYPE: {data.types.map((item) => item.type.name).join(", ")}
+              TYPE: {details.types.map((item) => item.type.name).join(", ")}
             </span>
+            <span>
+              HEIGHT: {details.height} WEIGHT: {details.weight}
+            </span>
+            <div>
+              ABILITIES:{" "}
+              {details.abilities.map((item) => (
+                <p key={item.ability.name}>{item.ability.name}</p>
+              ))}
+            </div>
           </div>
         </div>
       )}{" "}

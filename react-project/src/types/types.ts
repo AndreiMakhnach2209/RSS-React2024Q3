@@ -35,12 +35,12 @@ interface Pokemon extends Record<string, unknown> {
 interface PokemonAbility {
   is_hidden: boolean;
   slot: number;
-  ability: string;
+  ability: NamedResource;
 }
 
 interface PokemonType {
   slot: number;
-  type: { name: string; url: string };
+  type: NamedResource;
 }
 
 interface PokemonTypePast {
@@ -90,6 +90,11 @@ interface PokemonSprites {
 interface PokemonCries {
   latest: string;
   legacy: string;
+}
+
+interface NamedResource {
+  name: string;
+  url: string;
 }
 
 export type { PokemonListApiResponse, Pokemon, PokemonResult };

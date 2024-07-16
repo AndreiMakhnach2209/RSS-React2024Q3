@@ -24,8 +24,11 @@
 
   &-desc {
     display: flex;
-    justify-content: space-around;
+    flex-direction: column;
+    box-sizing: border-box;
     width: 100%;
+    padding: 8px;
+
     span {
       text-transform: capitalize;
     }

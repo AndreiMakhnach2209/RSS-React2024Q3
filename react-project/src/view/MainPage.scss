@@ -1,6 +1,11 @@
-.main__container {
+.main-container {
   display: flex;
   flex-direction: column;
   gap: 10px;
   align-items: center;
+
+  &__results {
+    display: flex;
+    gap: 10px;
+  }
 }

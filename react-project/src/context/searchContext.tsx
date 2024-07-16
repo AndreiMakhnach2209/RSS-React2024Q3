@@ -11,7 +11,8 @@ import API from "../services/api";
 import { isPokemonListApiResponse } from "../types/guards";
 
 interface SearchProviderState {
-  data: PokemonListApiResponse | Pokemon | null;
+  data: PokemonListApiResponse | null;
+  details: Pokemon | null;
   isLoading: boolean;
   isEmpty: boolean;
   searchInput: string;
@@ -30,6 +31,7 @@ interface SearchContextType extends SearchProviderState {
 
 const initialSearchState: SearchProviderState = {
   data: null,
+  details: null,
   isLoading: false,
   isEmpty: false,
   searchInput: "",
@@ -58,14 +60,23 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
     async (value: string): Promise<void> => {
       try {
         setState((prevState) => ({ ...prevState, isLoading: true }));
-        const data = value.trim().length
-          ? await API.getInstance().getPokemon(value)
-          : await API.getInstance().getAllPokemons(state.limit, state.offset);
-        setState((prevState) => ({
-          ...prevState,
-          data,
-          isEmpty: false,
-        }));
+        if (value.trim().length) {
+          const details = await API.getInstance().getPokemon(value);
+          setState((prevState) => ({
+            ...prevState,
+            details,
+            isEmpty: false,
+          }));
+        } else {
+          const data = await API.getInstance().getAllPokemons(
+            state.limit,
+            state.offset
+          );
+          setState((prevState) => ({
+            ...prevState,
+            data,
+          }));
+        }
       } catch (error) {
         if (error instanceof Error) {
           const { message } = error;

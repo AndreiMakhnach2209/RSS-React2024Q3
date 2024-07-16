@@ -10,11 +10,13 @@ import { Outlet } from "react-router-dom";
 function MainPage(): ReactElement {
   const { isLoading, isEmpty } = useContext(SearchContext);
   return (
-    <div className="main__container">
+    <div className="main-container">
       {isLoading && <Loader />}
       <SearchForm />
-      {isEmpty ? <EmptySearch /> : <ResultsField />}
-      <Outlet></Outlet>
+      <div className="main-container__results">
+        {isEmpty ? <EmptySearch /> : <ResultsField />}
+        <Outlet />
+      </div>
     </div>
   );
 }
