@@ -9,6 +9,7 @@ import {
 import { Pokemon, PokemonListApiResponse, PokemonResult } from "../types/types";
 import API from "../services/api";
 import { isPokemonListApiResponse } from "../types/guards";
+import { useSearchParams } from "react-router-dom";
 
 interface SearchProviderState {
   data: PokemonListApiResponse | null;
@@ -18,8 +19,6 @@ interface SearchProviderState {
   searchInput: string;
   count: number;
   fullList: PokemonResult[];
-  limit: number;
-  offset: number;
 }
 
 interface SearchContextType extends SearchProviderState {
@@ -37,8 +36,6 @@ const initialSearchState: SearchProviderState = {
   searchInput: "",
   count: 0,
   fullList: [],
-  limit: 20,
-  offset: 0,
 };
 
 export const SearchContext = createContext<SearchContextType>({
@@ -55,11 +52,14 @@ interface SearchProviderProps {
 
 function SearchProvider(props: SearchProviderProps): ReactElement {
   const [state, setState] = useState<SearchProviderState>(initialSearchState);
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const getPokemon = useCallback(
     async (value: string): Promise<void> => {
       try {
         setState((prevState) => ({ ...prevState, isLoading: true }));
+        const limit = searchParams.get("limit");
+        const offset = searchParams.get("offset");
         if (value.trim().length) {
           const details = await API.getInstance().getPokemon(value);
           setState((prevState) => ({
@@ -69,8 +69,8 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
           }));
         } else {
           const data = await API.getInstance().getAllPokemons(
-            state.limit,
-            state.offset
+            parseInt(limit || "20"),
+            parseInt(offset || "0")
           );
           setState((prevState) => ({
             ...prevState,
@@ -87,7 +87,7 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
         setState((prevState) => ({ ...prevState, isLoading: false }));
       }
     },
-    [state.limit, state.offset]
+    [searchParams]
   );
 
   const setSearchInput = useCallback((value: string): void => {
@@ -109,15 +109,23 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
     async (to: "next" | "previous"): Promise<void> => {
       try {
         setState((prevState) => ({ ...prevState, isLoading: true }));
-        const { data, limit, offset } = state;
+        const { data } = state;
+        const limit = parseInt(searchParams.get("limit") || "20");
+        const offset = parseInt(searchParams.get("offset") || "0");
         if (isPokemonListApiResponse(data) && data[to]) {
           const response = await fetch(data[to]);
           if (response.status === 200) {
+            setSearchParams({
+              limit: limit.toString(),
+              offset: (to === "next"
+                ? offset + limit
+                : offset - limit
+              ).toString(),
+            });
             const data = (await response.json()) as PokemonListApiResponse;
             setState((prevState) => ({
               ...prevState,
               data,
-              offset: to === "next" ? offset + limit : offset - limit,
               isEmpty: false,
             }));
           }
@@ -131,7 +139,7 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
         setState((prevState) => ({ ...prevState, isLoading: false }));
       }
     },
-    [state]
+    [searchParams, setSearchParams, state]
   );
 
   const search = useCallback(

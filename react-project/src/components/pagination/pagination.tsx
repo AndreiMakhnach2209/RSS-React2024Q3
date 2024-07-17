@@ -1,10 +1,29 @@
-import { ReactElement, useCallback, useContext } from "react";
+import {
+  ReactElement,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import "./pagination.scss";
 import { SearchContext } from "../../context/searchContext";
 import { isPokemonListApiResponse } from "../../types/guards";
+import { useSearchParams } from "react-router-dom";
 
 function PaginationBox(): ReactElement {
-  const { getPage, limit, offset, count, data } = useContext(SearchContext);
+  const { getPage, count, data } = useContext(SearchContext);
+  const [searchParams] = useSearchParams();
+  const [limit, setLimit] = useState(
+    parseInt(searchParams.get("limit") || "20")
+  );
+  const [offset, setOffset] = useState(
+    parseInt(searchParams.get("offset") || "0")
+  );
+
+  useEffect(() => {
+    setLimit(parseInt(searchParams.get("limit") || "20"));
+    setOffset(parseInt(searchParams.get("offset") || "0"));
+  }, [searchParams]);
 
   const { next, previous } = isPokemonListApiResponse(data)
     ? data
