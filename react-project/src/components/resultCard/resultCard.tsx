@@ -10,7 +10,7 @@ import "./resultCard.scss";
 import logo from "../../assets/3.svg";
 import { SearchContext } from "../../context/searchContext";
 import { isPokemon } from "../../types/guards";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 
 function ResultsCard(): ReactElement {
   const { details, getPokemon } = useContext(SearchContext);
@@ -27,12 +27,15 @@ function ResultsCard(): ReactElement {
 
   useEffect(() => {
     setImageLoaded(false);
-  }, [details?.id]);
+  }, [id]);
 
   return (
     <>
       {isPokemon(details) && (
         <div className="results__card" key={details.id}>
+          <NavLink to="/" className="card__close-btn">
+            <button>X</button>
+          </NavLink>
           <h2>{details.name}</h2>
           {!imageLoaded && (
             <img
