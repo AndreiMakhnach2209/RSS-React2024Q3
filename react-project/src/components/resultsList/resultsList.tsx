@@ -2,6 +2,7 @@ import { ReactElement } from "react";
 import "./resultsList.scss";
 import { PokemonListApiResponse } from "../../types/types";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import EmptySearch from "../emptySearch/emptySearch";
 
 interface ResultsListProps {
   data: PokemonListApiResponse;
@@ -27,7 +28,11 @@ function ResultsList(props: ResultsListProps): ReactElement {
   });
   return (
     <>
-      <div className="results-list">{listItems}</div>
+      {listItems.length ? (
+        <div className="results-list">{listItems}</div>
+      ) : (
+        <EmptySearch />
+      )}
     </>
   );
 }

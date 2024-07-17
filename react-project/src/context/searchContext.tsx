@@ -15,7 +15,6 @@ interface SearchProviderState {
   data: PokemonListApiResponse | null;
   details: Pokemon | null;
   isLoading: boolean;
-  isEmpty: boolean;
   searchInput: string;
   count: number;
   fullList: PokemonResult[];
@@ -32,7 +31,6 @@ const initialSearchState: SearchProviderState = {
   data: null,
   details: null,
   isLoading: false,
-  isEmpty: false,
   searchInput: "",
   count: 0,
   fullList: [],
@@ -65,7 +63,6 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
           setState((prevState) => ({
             ...prevState,
             details,
-            isEmpty: false,
           }));
         } else {
           const data = await API.getInstance().getAllPokemons(
@@ -82,7 +79,6 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
           const { message } = error;
           console.error(message);
         }
-        setState((prevState) => ({ ...prevState, isEmpty: true }));
       } finally {
         setState((prevState) => ({ ...prevState, isLoading: false }));
       }
@@ -126,14 +122,12 @@ function SearchProvider(props: SearchProviderProps): ReactElement {
             setState((prevState) => ({
               ...prevState,
               data,
-              isEmpty: false,
             }));
           }
         } else {
           throw new Error("Something went wrong.");
         }
       } catch (error) {
-        setState((prevState) => ({ ...prevState, isEmpty: true }));
         if (error instanceof Error) console.error(error.message);
       } finally {
         setState((prevState) => ({ ...prevState, isLoading: false }));

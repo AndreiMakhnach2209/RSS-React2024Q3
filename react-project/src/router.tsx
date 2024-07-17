@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import MainPage from "./view/MainPage";
 import ResultsCard from "./components/resultCard/resultCard";
+import Page404 from "./view/Page404";
 
 const routes: RouteObject[] = [
   {
@@ -13,6 +14,10 @@ const routes: RouteObject[] = [
         element: <ResultsCard />,
       },
     ],
+  },
+  {
+    path: "/*",
+    element: <Page404 />,
   },
 ];
 
