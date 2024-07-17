@@ -10,16 +10,22 @@ import "./resultCard.scss";
 import logo from "../../assets/3.svg";
 import { SearchContext } from "../../context/searchContext";
 import { isPokemon } from "../../types/guards";
-import { NavLink, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 function ResultsCard(): ReactElement {
   const { details, getPokemon } = useContext(SearchContext);
   const [imageLoaded, setImageLoaded] = useState(false);
   const { id } = useParams();
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
 
   const handleImageLoad = useCallback(() => {
     setImageLoaded(true);
   }, []);
+
+  const onClose = (): void => {
+    navigate(`/?${searchParams}`);
+  };
 
   useLayoutEffect(() => {
     getPokemon(id ?? "");
@@ -33,9 +39,9 @@ function ResultsCard(): ReactElement {
     <>
       {isPokemon(details) && (
         <div className="results__card" key={details.id}>
-          <NavLink to="/" className="card__close-btn">
-            <button>X</button>
-          </NavLink>
+          <button className="card__close-btn" onClick={onClose}>
+            X
+          </button>
           <h2>{details.name}</h2>
           {!imageLoaded && (
             <img
@@ -44,15 +50,17 @@ function ResultsCard(): ReactElement {
               src={logo}
             />
           )}
-          <img
-            className="results__card-image"
-            alt={details.name}
-            src={
-              details.sprites.other.dream_world?.front_default ??
-              details.sprites.front_default
-            }
-            onLoad={handleImageLoad}
-          />
+          {id === `${details.id}` && (
+            <img
+              className="results__card-image"
+              alt={details.name}
+              src={
+                details.sprites.other.dream_world?.front_default ??
+                details.sprites.front_default
+              }
+              onLoad={handleImageLoad}
+            />
+          )}
           <div className="results__card-desc">
             <span>ID: {id}</span>
             <span>
