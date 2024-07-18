@@ -42,12 +42,13 @@ function ResultsCard(): ReactElement {
           <button className="card__close-btn" onClick={onClose}>
             X
           </button>
-          <h2>{details.name}</h2>
+          <h2 data-testid="results-card-name">{details.name}</h2>
           {!imageLoaded && (
             <img
               className="results__card-image"
               alt={details.name}
               src={logo}
+              data-testid="results-card-image"
             />
           )}
           {id === `${details.id}` && (
@@ -59,9 +60,10 @@ function ResultsCard(): ReactElement {
                 details.sprites.front_default
               }
               onLoad={handleImageLoad}
+              data-testid="results-card-image"
             />
           )}
-          <div className="results__card-desc">
+          <div className="results__card-desc" data-testid="results-card-desc">
             <span>ID: {id}</span>
             <span>
               TYPE: {details.types.map((item) => item.type.name).join(", ")}

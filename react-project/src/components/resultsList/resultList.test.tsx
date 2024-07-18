@@ -9,29 +9,29 @@ test("The component displays the specified number of cards", () => {
     name: "name",
     url: "url",
   });
-  const data = {
+  const mockData = {
     count: 0,
     next: null,
     previous: null,
     results,
   };
-  render(<ResultsList data={data} />, {
+  render(<ResultsList data={mockData} />, {
     wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
   });
 
   const cards = screen.getAllByTestId("results-card");
-  expect(cards).toHaveLength(data.results.length);
+  expect(cards).toHaveLength(mockData.results.length);
 });
 
 test("A message is displayed if there are no cards", () => {
-  const data = {
+  const mockData = {
     count: 0,
     next: null,
     previous: null,
     results: [],
   };
 
-  render(<ResultsList data={data} />, {
+  render(<ResultsList data={mockData} />, {
     wrapper: ({ children }) => <MemoryRouter>{children}</MemoryRouter>,
   });
 
