@@ -2,6 +2,7 @@ import { render, fireEvent } from "@testing-library/react";
 import PaginationBox from "./pagination";
 import { SearchContext } from "../../context/searchContext";
 import { expect, test, vi } from "vitest";
+import { MemoryRouter } from "react-router-dom";
 
 test("should update URL query parameter when clicking Next button", () => {
   const mockGetPage = vi.fn();
@@ -21,8 +22,7 @@ test("should update URL query parameter when clicking Next button", () => {
     searchInput: "",
     count: 0,
     fullList: [],
-    limit: 20,
-    offset: 0,
+    details: null,
     getPokemon: mockGetPokemon,
     setSearchInput: mockSetSearchInput,
     getPage: mockGetPage,
@@ -30,9 +30,11 @@ test("should update URL query parameter when clicking Next button", () => {
   };
   const { getByTestId } = render(<PaginationBox />, {
     wrapper: ({ children }) => (
-      <SearchContext.Provider value={mockContext}>
-        {children}
-      </SearchContext.Provider>
+      <MemoryRouter>
+        <SearchContext.Provider value={mockContext}>
+          {children}
+        </SearchContext.Provider>
+      </MemoryRouter>
     ),
   });
 

@@ -59,8 +59,9 @@ function SearchForm(): ReactElement {
           placeholder="Enter the name of the Pokemon"
           onChange={handleChange}
           value={valueInput}
+          data-testid="pokemon-name-input"
         />
-        <SubmitBtn value="SEARCH" />
+        <SubmitBtn value="SEARCH" data-testid="search-button" />
       </form>
     </>
   );

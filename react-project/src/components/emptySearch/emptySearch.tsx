@@ -11,6 +11,7 @@ function EmptySearch(): ReactElement {
         height: "60vh",
         width: "80vw",
       }}
+      data-testid="not-found-cards"
     >
       <img src={logo} alt="logo" style={{ height: "100%", width: "100%" }} />
       <p style={{ fontSize: "20px" }}>Pokemon not found</p>
