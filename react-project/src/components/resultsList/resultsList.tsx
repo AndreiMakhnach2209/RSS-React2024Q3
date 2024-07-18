@@ -20,7 +20,12 @@ function ResultsList(props: ResultsListProps): ReactElement {
     const { name, url } = item;
     const id = url.split("/").slice(-2, -1)[0];
     return (
-      <div key={name + id} className="results-list__card" onClick={handleClick}>
+      <div
+        key={name + id}
+        className="results-list__card"
+        onClick={handleClick}
+        data-testid="results-card"
+      >
         <p>ID: {id}</p>
         <p>NAME: {name}</p>
       </div>
